@@ -1,29 +1,37 @@
 package com.alex.Model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "customer_id")
+    @Column(name = "id")
     private int id;
     private String licenseKey;
     private String email;
-    private String FIO;
+    private String fio;
     private String organization;
     private Boolean isActive;
-    private String dateFrom;
-    private String dateTo;
-    private String maxSeatCount;
-    private String maxWorkstationCount;
-    private String TMAPIEmail;
-    private String TMAPIPassword;
-    private String TMAPILimitKey;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
+    private int maxSeatCount;
+    private int maxWorkstationCount;
+    private String tmapiEmail;
+    private String tmapiPassword;
+    private String tmapiLimitKey;
     private String note;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+
+    @OneToMany(mappedBy="customer", fetch = FetchType.EAGER)
+    private List<CustomerSeat> customerSeats;
 }
